@@ -1,0 +1,254 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* Oscar Gold & Black Theme */
+  --primary: oklch(0.78 0.16 75);
+  --primary-foreground: oklch(0.09 0.01 60);
+  --sidebar-primary: oklch(0.78 0.16 75);
+  --sidebar-primary-foreground: oklch(0.09 0.01 60);
+  --chart-1: oklch(0.78 0.16 75);
+  --chart-2: oklch(0.65 0.14 70);
+  --chart-3: oklch(0.55 0.12 68);
+  --chart-4: oklch(0.45 0.10 65);
+  --chart-5: oklch(0.35 0.08 62);
+  --radius: 0rem;
+  --background: oklch(0.09 0.01 60);
+  --foreground: oklch(0.93 0.03 80);
+  --card: oklch(0.12 0.015 62);
+  --card-foreground: oklch(0.93 0.03 80);
+  --popover: oklch(0.13 0.015 62);
+  --popover-foreground: oklch(0.93 0.03 80);
+  --secondary: oklch(0.18 0.02 62);
+  --secondary-foreground: oklch(0.85 0.05 80);
+  --muted: oklch(0.16 0.015 62);
+  --muted-foreground: oklch(0.60 0.04 75);
+  --accent: oklch(0.72 0.14 75);
+  --accent-foreground: oklch(0.09 0.01 60);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.25 0.04 75);
+  --input: oklch(0.18 0.02 62);
+  --ring: oklch(0.78 0.16 75);
+  --sidebar: oklch(0.11 0.012 62);
+  --sidebar-foreground: oklch(0.93 0.03 80);
+  --sidebar-accent: oklch(0.18 0.02 62);
+  --sidebar-accent-foreground: oklch(0.93 0.03 80);
+  --sidebar-border: oklch(0.25 0.04 75);
+  --sidebar-ring: oklch(0.78 0.16 75);
+}
+
+.dark {
+  /* Same as root — always dark for Oscar theme */
+  --primary: oklch(0.78 0.16 75);
+  --primary-foreground: oklch(0.09 0.01 60);
+  --background: oklch(0.09 0.01 60);
+  --foreground: oklch(0.93 0.03 80);
+  --card: oklch(0.12 0.015 62);
+  --card-foreground: oklch(0.93 0.03 80);
+  --popover: oklch(0.13 0.015 62);
+  --popover-foreground: oklch(0.93 0.03 80);
+  --secondary: oklch(0.18 0.02 62);
+  --secondary-foreground: oklch(0.85 0.05 80);
+  --muted: oklch(0.16 0.015 62);
+  --muted-foreground: oklch(0.60 0.04 75);
+  --accent: oklch(0.72 0.14 75);
+  --accent-foreground: oklch(0.09 0.01 60);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.25 0.04 75);
+  --input: oklch(0.18 0.02 62);
+  --ring: oklch(0.78 0.16 75);
+  --sidebar: oklch(0.11 0.012 62);
+  --sidebar-foreground: oklch(0.93 0.03 80);
+  --sidebar-accent: oklch(0.18 0.02 62);
+  --sidebar-accent-foreground: oklch(0.93 0.03 80);
+  --sidebar-border: oklch(0.25 0.04 75);
+  --sidebar-ring: oklch(0.78 0.16 75);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, oklch(0.15 0.04 75 / 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, oklch(0.13 0.03 70 / 0.25) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    letter-spacing: 0.04em;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+/* ── Gold gradient text ───────────────────────────────────────────────────── */
+.text-gold-gradient {
+  background: linear-gradient(
+    135deg,
+    oklch(0.60 0.14 70) 0%,
+    oklch(0.88 0.14 80) 40%,
+    oklch(0.78 0.16 75) 60%,
+    oklch(0.55 0.12 68) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-border {
+  border: 1px solid oklch(0.78 0.16 75 / 0.45);
+  box-shadow: 0 0 12px oklch(0.78 0.16 75 / 0.12), inset 0 0 12px oklch(0.78 0.16 75 / 0.04);
+}
+
+.oscar-card {
+  background: linear-gradient(145deg, oklch(0.13 0.02 65), oklch(0.10 0.01 60));
+  border: 1px solid oklch(0.78 0.16 75 / 0.22);
+  border-radius: 0;
+  box-shadow: 0 4px 24px oklch(0 0 0 / 0.4), 0 0 0 1px oklch(0.78 0.16 75 / 0.06);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, oklch(0.62 0.14 70), oklch(0.82 0.16 78), oklch(0.62 0.14 70));
+  color: oklch(0.09 0.01 60);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 12px oklch(0.78 0.16 75 / 0.35);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, oklch(0.68 0.16 72), oklch(0.88 0.16 80), oklch(0.68 0.16 72));
+  box-shadow: 0 4px 20px oklch(0.78 0.16 75 / 0.55);
+  transform: translateY(-1px);
+}
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.78 0.16 75 / 0.55), transparent);
+  margin: 1rem 0;
+}
+
+.player-paid { color: oklch(0.82 0.16 78); font-weight: 600; }
+.player-unpaid { color: oklch(0.62 0.01 240); }
+
+.rank-1 { background: linear-gradient(135deg, oklch(0.62 0.14 70), oklch(0.82 0.16 78)); color: oklch(0.09 0.01 60); }
+.rank-2 { background: linear-gradient(135deg, oklch(0.52 0.01 240), oklch(0.70 0.01 240)); color: oklch(0.09 0.01 60); }
+.rank-3 { background: linear-gradient(135deg, oklch(0.42 0.08 50), oklch(0.58 0.10 55)); color: oklch(0.95 0.03 80); }
+
+.payment-banner {
+  background: linear-gradient(135deg, oklch(0.12 0.02 65 / 0.97), oklch(0.10 0.01 60 / 0.97));
+  border-top: 1px solid oklch(0.78 0.16 75 / 0.28);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes trophy-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px oklch(0.78 0.16 75 / 0.35)); }
+  50% { filter: drop-shadow(0 0 14px oklch(0.78 0.16 75 / 0.75)); }
+}
+.trophy-glow { animation: trophy-glow 3s ease-in-out infinite; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: oklch(0.12 0.01 60); }
+::-webkit-scrollbar-thumb { background: oklch(0.78 0.16 75 / 0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.78 0.16 75 / 0.65); }
+
+@layer components {
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   *
+   * This overrides Tailwind's default container behavior to:
+   * - Auto-center content (mx-auto)
+   * - Add responsive horizontal padding
+   * - Set max-width for large screens
+   *
+   * Usage: <div className="container">...</div>
+   *
+   * For custom widths, use max-w-* utilities directly:
+   * <div className="max-w-6xl mx-auto px-4">...</div>
+   */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem; /* 16px - mobile padding */
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem; /* 32px - desktop padding */
+      padding-right: 2rem;
+      max-width: 1280px; /* Standard content width */
+    }
+  }
+}
