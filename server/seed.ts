@@ -350,28 +350,17 @@ async function seed() {
     console.log(`  ✓ ${cat.name} (${cat.nominees.length} nominees)`);
   }
 
-  // Create default pool_settings row if it doesn't exist
+  // Default oscar_pool_settings row is created by the schema SQL
   const { data: existing } = await supabaseAdmin
-    .from('pool_settings')
+    .from('oscar_pool_settings')
     .select('id')
     .limit(1)
     .single();
 
-  if (!existing) {
-    const { error: settingsError } = await supabaseAdmin
-      .from('pool_settings')
-      .insert({
-        votingOpen: true,
-        ceremonyDate: '2026-03-15T00:00:00Z',
-      });
-
-    if (settingsError) {
-      console.error('Error creating pool_settings:', settingsError.message);
-    } else {
-      console.log('  ✓ Default pool_settings created');
-    }
+  if (existing) {
+    console.log('  ✓ oscar_pool_settings already exists');
   } else {
-    console.log('  ✓ pool_settings already exists');
+    console.log('  ⚠ oscar_pool_settings row missing (should be created by schema)');
   }
 
   console.log("Seed complete!");

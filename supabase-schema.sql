@@ -42,6 +42,9 @@ CREATE TABLE IF NOT EXISTS "oscar_nominees" (
 
 CREATE INDEX IF NOT EXISTS idx_oscar_nominees_category ON "oscar_nominees" ("categoryId");
 
+-- Unique constraint for seed upserts
+ALTER TABLE "oscar_nominees" ADD CONSTRAINT oscar_nominees_category_name_unique UNIQUE ("categoryId", "name");
+
 -- ─── Ballots ──────────────────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS "oscar_ballots" (
