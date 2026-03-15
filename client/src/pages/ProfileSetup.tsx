@@ -6,32 +6,11 @@ import { toast } from "sonner";
 import { Loader2, User, MessageSquare, DollarSign, Trophy } from "lucide-react";
 import OscarLayout from "@/components/OscarLayout";
 
-// Payout options — each has a placeholder for the user's own handle/number
 const PAYOUT_OPTIONS = [
-  {
-    value: "cashapp",
-    label: "CashApp",
-    placeholder: "Your CashApp $handle (e.g. $YourName)",
-    prefix: "CashApp: ",
-  },
-  {
-    value: "zelle",
-    label: "Zelle",
-    placeholder: "Your Zelle phone or email",
-    prefix: "Zelle: ",
-  },
-  {
-    value: "applepay",
-    label: "Apple Pay",
-    placeholder: "Your Apple Pay phone number",
-    prefix: "Apple Pay: ",
-  },
-  {
-    value: "other",
-    label: "Other",
-    placeholder: "Describe your preferred payout method",
-    prefix: "",
-  },
+  { value: "cashapp", label: "CashApp", placeholder: "Your CashApp $handle (e.g. $YourName)", prefix: "CashApp: " },
+  { value: "zelle", label: "Zelle", placeholder: "Your Zelle phone or email", prefix: "Zelle: " },
+  { value: "applepay", label: "Apple Pay", placeholder: "Your Apple Pay phone number", prefix: "Apple Pay: " },
+  { value: "other", label: "Other", placeholder: "Describe your preferred payout method", prefix: "" },
 ];
 
 function parseStoredPayout(stored: string): { type: string; detail: string } {
@@ -75,7 +54,6 @@ export default function ProfileSetup() {
         setPayoutDetail(parsed.detail);
       }
     } else if (!profileLoading && user) {
-      // Pre-fill name from OAuth but leave payout blank — it's the user's own info
       setDisplayName(user.name ?? "");
     }
   }, [profile, profileLoading, user]);
@@ -114,12 +92,10 @@ export default function ProfileSetup() {
     setSaving(false);
   };
 
-  const currentOpt = PAYOUT_OPTIONS.find((o) => o.value === payoutType) ?? PAYOUT_OPTIONS[0];
-
   if (loading || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[oklch(0.78_0.16_75)]" />
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--gold-primary)" }} />
       </div>
     );
   }
@@ -127,7 +103,6 @@ export default function ProfileSetup() {
   return (
     <OscarLayout title="Player Profile">
       <div className="container py-8 max-w-lg mx-auto">
-        {/* Header — slate icon only, no heading or subtitle */}
         <div className="text-center mb-8">
           <div className="text-5xl mb-2 trophy-glow">🎬</div>
         </div>
@@ -135,10 +110,7 @@ export default function ProfileSetup() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Display Name */}
           <div className="oscar-card p-4 sm:p-5">
-            <label
-              className="flex items-center gap-2 text-xs font-semibold text-[oklch(0.78_0.16_75)] tracking-wider uppercase mb-3"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
+            <label className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase mb-3 font-heading" style={{ color: "var(--gold-primary)" }}>
               <User className="w-3.5 h-3.5" />
               Your Name
             </label>
@@ -149,20 +121,20 @@ export default function ProfileSetup() {
               placeholder="How you'll appear on the leaderboard"
               maxLength={120}
               required
-              className="w-full bg-[oklch(0.10_0.01_60)] border border-[oklch(0.25_0.04_75)] px-3 py-2.5 text-sm text-[oklch(0.93_0.03_80)] placeholder-[oklch(0.40_0.03_75)] focus:outline-none focus:border-[oklch(0.78_0.16_75)] focus:ring-1 focus:ring-[oklch(0.78_0.16_75/0.3)] transition-colors"
-              style={{ borderRadius: 0 }}
+              className="w-full px-3 py-2.5 text-sm font-body focus:outline-none transition-colors"
+              style={{
+                background: "var(--bg-deep)",
+                border: "1px solid rgba(212,168,67,0.2)",
+                color: "var(--text-primary)",
+              }}
             />
           </div>
 
           {/* Slogan */}
           <div className="oscar-card p-4 sm:p-5">
-            <label
-              className="flex items-center gap-2 text-xs font-semibold text-[oklch(0.78_0.16_75)] tracking-wider uppercase mb-3"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
+            <label className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase mb-3 font-heading" style={{ color: "var(--gold-primary)" }}>
               <MessageSquare className="w-3.5 h-3.5" />
-              Your Slogan{" "}
-              <span className="text-[oklch(0.45_0.03_75)] normal-case font-normal">(optional)</span>
+              Your Slogan <span className="normal-case font-normal" style={{ color: "var(--text-secondary)" }}>(optional)</span>
             </label>
             <input
               type="text"
@@ -170,82 +142,56 @@ export default function ProfileSetup() {
               onChange={(e) => setSlogan(e.target.value)}
               placeholder="One sentence — make it memorable!"
               maxLength={280}
-              className="w-full bg-[oklch(0.10_0.01_60)] border border-[oklch(0.25_0.04_75)] px-3 py-2.5 text-sm text-[oklch(0.93_0.03_80)] placeholder-[oklch(0.40_0.03_75)] focus:outline-none focus:border-[oklch(0.78_0.16_75)] focus:ring-1 focus:ring-[oklch(0.78_0.16_75/0.3)] transition-colors"
-              style={{ borderRadius: 0 }}
+              className="w-full px-3 py-2.5 text-sm font-body focus:outline-none transition-colors"
+              style={{
+                background: "var(--bg-deep)",
+                border: "1px solid rgba(212,168,67,0.2)",
+                color: "var(--text-primary)",
+              }}
             />
-            <p className="text-[10px] text-[oklch(0.45_0.03_75)] mt-1.5">{slogan.length}/280</p>
+            <p className="text-[10px] mt-1.5" style={{ color: "var(--text-secondary)" }}>{slogan.length}/280</p>
           </div>
 
           {/* Monetary participation */}
           <div className="oscar-card p-4 sm:p-5">
-            <label
-              className="flex items-center gap-2 text-xs font-semibold text-[oklch(0.78_0.16_75)] tracking-wider uppercase mb-3"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
+            <label className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase mb-3 font-heading" style={{ color: "var(--gold-primary)" }}>
               <Trophy className="w-3.5 h-3.5" />
               Participation Type
             </label>
 
             <div className="space-y-2">
               <label className="flex items-start gap-3 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="monetary"
-                  checked={isMonetary}
-                  onChange={() => setIsMonetary(true)}
-                  className="mt-0.5 accent-[oklch(0.78_0.16_75)]"
-                />
+                <input type="radio" name="monetary" checked={isMonetary} onChange={() => setIsMonetary(true)} className="mt-0.5 accent-[#D4A843]" />
                 <div>
-                  <div className="text-sm font-semibold text-[oklch(0.82_0.16_78)]">
-                    💰 Monetary ($10/ballot)
-                  </div>
-                  <div className="text-xs text-[oklch(0.55_0.04_75)]">
-                    Eligible for 1st, 2nd &amp; 3rd place cash prizes · Multiple ballots accepted
-                  </div>
+                  <div className="text-sm font-semibold" style={{ color: "var(--gold-primary)" }}>Monetary ($10/ballot)</div>
+                  <div className="text-xs" style={{ color: "var(--text-secondary)" }}>Eligible for 1st, 2nd &amp; 3rd place cash prizes</div>
                 </div>
               </label>
 
               <label className="flex items-start gap-3 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="monetary"
-                  checked={!isMonetary}
-                  onChange={() => setIsMonetary(false)}
-                  className="mt-0.5 accent-[oklch(0.78_0.16_75)]"
-                />
+                <input type="radio" name="monetary" checked={!isMonetary} onChange={() => setIsMonetary(false)} className="mt-0.5 accent-[#D4A843]" />
                 <div>
-                  <div className="text-sm font-medium text-[oklch(0.65_0.01_240)]">
-                    🎬 Non-Monetary (free)
-                  </div>
-                  <div className="text-xs text-[oklch(0.45_0.03_75)]">
-                    Play for fun — not eligible for cash prizes
-                  </div>
+                  <div className="text-sm font-medium" style={{ color: "var(--silver-primary)" }}>Non-Monetary (free)</div>
+                  <div className="text-xs" style={{ color: "var(--text-secondary)" }}>Play for fun — not eligible for cash prizes</div>
                 </div>
               </label>
             </div>
 
-            {/* Multiple ballot reminder */}
             {isMonetary && (
-              <div
-                className="mt-3 px-3 py-2 text-xs text-[oklch(0.78_0.16_75)]"
-                style={{
-                  background: "oklch(0.10 0.01 60)",
-                  border: "1px solid oklch(0.78 0.16 75 / 0.25)",
-                  borderRadius: 0,
-                }}
-              >
-                ✦ You may submit more than one ballot — each additional ballot is $10 and gives you another shot at 1st, 2nd &amp; 3rd place prizes.
+              <div className="mt-3 px-3 py-2 text-xs" style={{
+                background: "var(--bg-deep)",
+                border: "1px solid rgba(212,168,67,0.25)",
+                color: "var(--gold-primary)",
+              }}>
+                You may submit more than one ballot — each additional ballot is $10.
               </div>
             )}
           </div>
 
-          {/* Payout method — per-option input field */}
+          {/* Payout method */}
           {isMonetary && (
             <div className="oscar-card p-4 sm:p-5">
-              <label
-                className="flex items-center gap-2 text-xs font-semibold text-[oklch(0.78_0.16_75)] tracking-wider uppercase mb-3"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
+              <label className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase mb-3 font-heading" style={{ color: "var(--gold-primary)" }}>
                 <DollarSign className="w-3.5 h-3.5" />
                 Preferred Payout Method
               </label>
@@ -255,49 +201,38 @@ export default function ProfileSetup() {
                   <div key={opt.value}>
                     <label className="flex items-center gap-3 cursor-pointer mb-1.5">
                       <input
-                        type="radio"
-                        name="payout"
-                        value={opt.value}
+                        type="radio" name="payout" value={opt.value}
                         checked={payoutType === opt.value}
                         onChange={() => setPayoutType(opt.value)}
-                        className="accent-[oklch(0.78_0.16_75)]"
+                        className="accent-[#D4A843]"
                       />
-                      <span className="text-sm font-medium text-[oklch(0.85_0.05_80)]">
-                        {opt.label}
-                      </span>
+                      <span className="text-sm font-medium font-body" style={{ color: "var(--text-primary)" }}>{opt.label}</span>
                     </label>
                     {payoutType === opt.value && (
                       <input
-                        type="text"
-                        value={payoutDetail}
+                        type="text" value={payoutDetail}
                         onChange={(e) => setPayoutDetail(e.target.value)}
-                        placeholder={opt.placeholder}
-                        maxLength={120}
-                        className="w-full bg-[oklch(0.10_0.01_60)] border border-[oklch(0.78_0.16_75/0.35)] px-3 py-2.5 text-sm text-[oklch(0.93_0.03_80)] placeholder-[oklch(0.40_0.03_75)] focus:outline-none focus:border-[oklch(0.78_0.16_75)] focus:ring-1 focus:ring-[oklch(0.78_0.16_75/0.3)] transition-colors ml-6"
-                        style={{ borderRadius: 0, width: "calc(100% - 1.5rem)" }}
+                        placeholder={opt.placeholder} maxLength={120}
+                        className="w-full px-3 py-2.5 text-sm font-body focus:outline-none transition-colors ml-6"
+                        style={{
+                          background: "var(--bg-deep)",
+                          border: "1px solid rgba(212,168,67,0.35)",
+                          color: "var(--text-primary)",
+                          width: "calc(100% - 1.5rem)",
+                        }}
                       />
                     )}
                   </div>
                 ))}
               </div>
 
-              <div
-                className="mt-4 p-3 text-xs text-[oklch(0.60_0.04_75)] space-y-0.5"
-                style={{
-                  background: "oklch(0.10 0.01 60)",
-                  border: "1px solid oklch(0.78 0.16 75 / 0.12)",
-                  borderRadius: 0,
-                }}
-              >
-                <p className="font-semibold text-[oklch(0.78_0.16_75)]">Pool Payment Info</p>
-                <p>
-                  💰 CashApp:{" "}
-                  <strong className="text-[oklch(0.78_0.16_75)]">$DarionDAnjou</strong>
-                </p>
-                <p>
-                  📱 Zelle / Apple Pay:{" "}
-                  <strong className="text-[oklch(0.78_0.16_75)]">+1 404 803 8247</strong>
-                </p>
+              <div className="mt-4 p-3 text-xs space-y-0.5" style={{
+                background: "var(--bg-deep)",
+                border: "1px solid rgba(212,168,67,0.12)",
+              }}>
+                <p className="font-semibold" style={{ color: "var(--gold-primary)" }}>Pool Payment Info</p>
+                <p style={{ color: "var(--text-secondary)" }}>CashApp: <strong style={{ color: "var(--gold-primary)" }}>$DarionDAnjou</strong></p>
+                <p style={{ color: "var(--text-secondary)" }}>Zelle / Apple Pay: <strong style={{ color: "var(--gold-primary)" }}>+1 404 803 8247</strong></p>
               </div>
             </div>
           )}
@@ -306,9 +241,8 @@ export default function ProfileSetup() {
             type="submit"
             disabled={saving}
             className="btn-gold w-full py-3 text-sm flex items-center justify-center gap-2"
-            style={{ fontFamily: "'Cinzel', serif", borderRadius: 0 }}
           >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "✦"}
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             {saving ? "Saving..." : "Save Profile & Continue to Ballot"}
           </button>
         </form>

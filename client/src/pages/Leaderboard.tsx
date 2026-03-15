@@ -2,30 +2,24 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import { Loader2, Trophy, DollarSign, Film, Crown } from "lucide-react";
+import { Loader2, Trophy, DollarSign, Film } from "lucide-react";
 import OscarLayout from "@/components/OscarLayout";
+import OrnateFrame from "@/components/OrnateFrame";
 
 function RankBadge({ rank }: { rank: number }) {
-  if (rank === 1) return (
-    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black rank-1 flex-shrink-0" style={{ fontFamily: "'Cinzel', serif" }}>
-      1
-    </div>
-  );
-  if (rank === 2) return (
-    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black rank-2 flex-shrink-0" style={{ fontFamily: "'Cinzel', serif" }}>
-      2
-    </div>
-  );
-  if (rank === 3) return (
-    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black rank-3 flex-shrink-0" style={{ fontFamily: "'Cinzel', serif" }}>
-      3
-    </div>
-  );
+  if (rank <= 3) {
+    const cls = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : "rank-3";
+    return (
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 font-heading ${cls}`}>
+        {rank}
+      </div>
+    );
+  }
   return (
-    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 text-[oklch(0.55_0.04_75)]" style={{
-      background: "oklch(0.15 0.01 60)",
-      border: "1px solid oklch(0.25 0.04 75 / 0.4)",
-      fontFamily: "'Cinzel', serif",
+    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 font-heading" style={{
+      background: "var(--bg-elevated)",
+      border: "1px solid rgba(212,168,67,0.15)",
+      color: "var(--text-secondary)",
     }}>
       {rank}
     </div>
@@ -33,7 +27,7 @@ function RankBadge({ rank }: { rank: number }) {
 }
 
 export default function Leaderboard() {
-  const { loading, isAuthenticated, user } = useAuth();
+  const { loading, isAuthenticated } = useAuth();
   const [, navigate] = useLocation();
   const { data: leaderboard, isLoading } = trpc.leaderboard.get.useQuery(undefined, {
     refetchInterval: 15000,
@@ -55,69 +49,70 @@ export default function Leaderboard() {
   if (loading || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[oklch(0.78_0.16_75)]" />
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--gold-primary)" }} />
       </div>
     );
   }
 
   const board = leaderboard ?? [];
   const paidPlayers = board.filter((p) => p.isMonetary && p.hasPaid);
-  const allEligible = board.filter((p) => p.isMonetary);
 
   return (
     <OscarLayout title="Live Leaderboard">
       <div className="container py-6 max-w-2xl mx-auto">
         {/* Status header */}
-        <div className="oscar-card p-4 mb-6 text-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <Trophy className="w-5 h-5 text-[oklch(0.78_0.16_75)] trophy-glow" />
-            <h2 className="text-base sm:text-lg font-bold text-gold-gradient" style={{ fontFamily: "'Cinzel', serif" }}>
-              98th Academy Awards Pool
-            </h2>
-            <Trophy className="w-5 h-5 text-[oklch(0.78_0.16_75)] trophy-glow" />
-          </div>
+        <OrnateFrame className="mb-6">
+          <div className="p-5 text-center" style={{ background: "linear-gradient(160deg, var(--bg-elevated), var(--bg-deep))" }}>
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <Trophy className="w-5 h-5 trophy-glow" style={{ color: "var(--gold-primary)" }} />
+              <h2 className="text-base sm:text-lg font-bold text-gold-gradient font-display">
+                98th Academy Awards Pool
+              </h2>
+              <Trophy className="w-5 h-5 trophy-glow" style={{ color: "var(--gold-primary)" }} />
+            </div>
 
-          <div className="flex items-center justify-center gap-4 text-xs text-[oklch(0.60_0.04_75)]">
-            <span>{announcedCount} / {totalCategories} awards announced</span>
-            <span>·</span>
-            <span>{board.length} players</span>
-            {settings?.ceremonyStarted && (
-              <>
-                <span>·</span>
-                <span className="text-[oklch(0.78_0.16_75)] font-semibold animate-pulse">🔴 LIVE</span>
-              </>
-            )}
-          </div>
+            <div className="flex items-center justify-center gap-4 text-xs" style={{ color: "var(--text-secondary)" }}>
+              <span>{announcedCount} / {totalCategories} awards announced</span>
+              <span>·</span>
+              <span>{board.length} players</span>
+              {settings?.ceremonyStarted && (
+                <>
+                  <span>·</span>
+                  <span className="font-semibold animate-pulse" style={{ color: "var(--gold-primary)" }}>LIVE</span>
+                </>
+              )}
+            </div>
 
-          {/* Progress bar */}
-          <div className="mt-3 h-1.5 rounded-full bg-[oklch(0.18_0.02_62)] overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-1000"
-              style={{
-                width: `${(announcedCount / totalCategories) * 100}%`,
-                background: "linear-gradient(90deg, oklch(0.62 0.14 70), oklch(0.82 0.16 78))",
-              }}
-            />
+            {/* Progress bar */}
+            <div className="mt-3 h-1.5 overflow-hidden" style={{ background: "var(--bg-deep)" }}>
+              <div
+                className="h-full transition-all duration-1000"
+                style={{
+                  width: `${(announcedCount / totalCategories) * 100}%`,
+                  background: "linear-gradient(90deg, var(--gold-muted), var(--gold-primary))",
+                }}
+              />
+            </div>
           </div>
-        </div>
+        </OrnateFrame>
 
         {/* Legend */}
-        <div className="flex items-center gap-4 mb-4 text-xs text-[oklch(0.55_0.04_75)] px-1">
+        <div className="flex items-center gap-4 mb-4 text-xs px-1" style={{ color: "var(--text-secondary)" }}>
           <div className="flex items-center gap-1.5">
-            <DollarSign className="w-3 h-3 text-[oklch(0.78_0.16_75)]" />
-            <span className="text-[oklch(0.78_0.16_75)]">Paid — eligible for prizes</span>
+            <DollarSign className="w-3 h-3" style={{ color: "var(--gold-primary)" }} />
+            <span style={{ color: "var(--gold-primary)" }}>Paid — eligible for prizes</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Film className="w-3 h-3 text-[oklch(0.55_0.01_240)]" />
-            <span className="text-[oklch(0.55_0.01_240)]">Non-monetary / unpaid</span>
+            <Film className="w-3 h-3" style={{ color: "var(--silver-primary)" }} />
+            <span style={{ color: "var(--silver-primary)" }}>Non-monetary / unpaid</span>
           </div>
         </div>
 
         {/* Leaderboard */}
         {board.length === 0 ? (
-          <div className="oscar-card p-8 text-center text-[oklch(0.50_0.03_75)]">
+          <div className="oscar-card p-8 text-center" style={{ color: "var(--text-secondary)" }}>
             <Trophy className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p style={{ fontFamily: "'Cinzel', serif" }}>No players yet. Be the first to submit a ballot!</p>
+            <p className="font-heading">No players yet. Be the first to submit a ballot!</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -125,58 +120,57 @@ export default function Leaderboard() {
               const rank = idx + 1;
               const isPaid = player.isMonetary && player.hasPaid;
               const isMonetary = player.isMonetary;
-              const isMe = false; // Could compare by userId if exposed
 
               return (
                 <div
                   key={player.userId}
-                  className={`oscar-card p-3 sm:p-4 flex items-center gap-3 transition-all ${
-                    rank <= 3 && isPaid ? "border-[oklch(0.78_0.16_75/0.4)]" : ""
-                  }`}
+                  className="oscar-card p-3 sm:p-4 flex items-center gap-3 transition-all"
                   style={{
-                    borderColor: rank === 1 && isPaid ? "oklch(0.78 0.16 75 / 0.5)" : undefined,
-                    boxShadow: rank === 1 && isPaid ? "0 0 20px oklch(0.78 0.16 75 / 0.1)" : undefined,
+                    borderColor: rank === 1 && isPaid ? "rgba(212,168,67,0.5)" : undefined,
+                    boxShadow: rank === 1 && isPaid ? "0 0 20px rgba(212,168,67,0.1)" : undefined,
                   }}
                 >
+                  {/* Sparkle accent for rank 1 */}
+                  {rank === 1 && isPaid && (
+                    <span className="absolute -top-1 -left-1 text-xs" style={{ color: "var(--gold-sparkle)", opacity: 0.6 }}>✦</span>
+                  )}
+
                   <RankBadge rank={rank} />
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      {/* Name with paid indicator */}
                       <span
-                        className={`font-semibold text-sm sm:text-base truncate ${
-                          isPaid ? "player-paid" : "player-unpaid"
-                        }`}
-                        style={{ fontFamily: "'Cinzel', serif" }}
+                        className={`font-semibold text-sm sm:text-base truncate font-heading ${isPaid ? "player-paid" : "player-unpaid"}`}
                       >
-                        {isPaid && <DollarSign className="w-3 h-3 inline mr-0.5 text-[oklch(0.78_0.16_75)]" />}
+                        {isPaid && <DollarSign className="w-3 h-3 inline mr-0.5" style={{ color: "var(--gold-primary)" }} />}
                         {player.displayName}
                       </span>
 
-                      {/* Badges */}
                       {rank <= 3 && isPaid && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold" style={{
-                          background: rank === 1 ? "oklch(0.78 0.16 75 / 0.2)" : rank === 2 ? "oklch(0.60 0.01 240 / 0.2)" : "oklch(0.50 0.08 50 / 0.2)",
-                          color: rank === 1 ? "oklch(0.88 0.14 80)" : rank === 2 ? "oklch(0.72 0.01 240)" : "oklch(0.65 0.10 55)",
-                          border: `1px solid ${rank === 1 ? "oklch(0.78 0.16 75 / 0.4)" : rank === 2 ? "oklch(0.60 0.01 240 / 0.4)" : "oklch(0.50 0.08 50 / 0.4)"}`,
+                        <span className="text-[10px] px-1.5 py-0.5 font-bold" style={{
+                          background: rank === 1 ? "rgba(212,168,67,0.2)" : rank === 2 ? "rgba(192,192,192,0.2)" : "rgba(205,127,50,0.2)",
+                          color: rank === 1 ? "var(--gold-light)" : rank === 2 ? "var(--silver-light)" : "#D4A76A",
+                          border: `1px solid ${rank === 1 ? "rgba(212,168,67,0.4)" : rank === 2 ? "rgba(192,192,192,0.4)" : "rgba(205,127,50,0.4)"}`,
                         }}>
-                          {rank === 1 ? "🥇 1st" : rank === 2 ? "🥈 2nd" : "🥉 3rd"}
+                          {rank === 1 ? "1st" : rank === 2 ? "2nd" : "3rd"}
                         </span>
                       )}
 
                       {!isMonetary && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full text-[oklch(0.45_0.03_75)]" style={{
-                          background: "oklch(0.15 0.01 60)",
-                          border: "1px solid oklch(0.25 0.04 75 / 0.3)",
+                        <span className="text-[10px] px-1.5 py-0.5" style={{
+                          background: "var(--bg-elevated)",
+                          border: "1px solid rgba(212,168,67,0.1)",
+                          color: "var(--text-secondary)",
                         }}>
                           Non-monetary
                         </span>
                       )}
 
                       {isMonetary && !isPaid && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full text-[oklch(0.55_0.22_25)]" style={{
-                          background: "oklch(0.15 0.01 60)",
-                          border: "1px solid oklch(0.55 0.22 25 / 0.3)",
+                        <span className="text-[10px] px-1.5 py-0.5" style={{
+                          background: "var(--bg-elevated)",
+                          border: "1px solid rgba(185,28,28,0.3)",
+                          color: "var(--destructive)",
                         }}>
                           Unpaid
                         </span>
@@ -184,7 +178,7 @@ export default function Leaderboard() {
                     </div>
 
                     {player.slogan && (
-                      <p className="text-xs text-[oklch(0.50_0.03_75)] mt-0.5 italic truncate">
+                      <p className="text-xs mt-0.5 italic truncate font-body" style={{ color: "var(--text-secondary)" }}>
                         "{player.slogan}"
                       </p>
                     )}
@@ -192,10 +186,12 @@ export default function Leaderboard() {
 
                   {/* Score */}
                   <div className="text-right flex-shrink-0">
-                    <div className={`text-lg sm:text-xl font-black ${isPaid ? "text-[oklch(0.78_0.16_75)]" : "text-[oklch(0.55_0.01_240)]"}`} style={{ fontFamily: "'Cinzel', serif" }}>
+                    <div className="text-lg sm:text-xl font-black font-heading" style={{
+                      color: isPaid ? "var(--gold-primary)" : "var(--silver-primary)",
+                    }}>
                       {player.score}
                     </div>
-                    <div className="text-[10px] text-[oklch(0.45_0.03_75)]">
+                    <div className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
                       {player.totalPicks > 0 ? `/ ${player.totalPicks} picks` : "no ballot"}
                     </div>
                   </div>
@@ -209,15 +205,15 @@ export default function Leaderboard() {
         {paidPlayers.length > 0 && (
           <div className="mt-6 oscar-card p-4 text-center">
             <div className="gold-divider mb-3" />
-            <p className="text-xs text-[oklch(0.60_0.04_75)] mb-2" style={{ fontFamily: "'Cinzel', serif" }}>
+            <p className="text-xs mb-2 font-heading" style={{ color: "var(--text-secondary)" }}>
               Prize Pool Eligible Players ({paidPlayers.length})
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {paidPlayers.slice(0, 3).map((p, i) => (
                 <div key={p.userId} className="flex items-center gap-1 text-xs">
-                  <span>{i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉"}</span>
-                  <span className="player-paid">{p.displayName}</span>
-                  <span className="text-[oklch(0.45_0.03_75)]">({p.score} pts)</span>
+                  <span>{i === 0 ? "1st" : i === 1 ? "2nd" : "3rd"}</span>
+                  <span className="player-paid font-heading">{p.displayName}</span>
+                  <span style={{ color: "var(--text-secondary)" }}>({p.score} pts)</span>
                 </div>
               ))}
             </div>

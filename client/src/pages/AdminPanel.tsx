@@ -59,7 +59,7 @@ export default function AdminPanel() {
     onSuccess: () => {
       utils.winners.getAll.invalidate();
       utils.leaderboard.get.invalidate();
-      toast.success("Winner set! 🏆");
+      toast.success("Winner set!");
     },
     onError: (e) => toast.error(e.message),
   });
@@ -118,7 +118,7 @@ export default function AdminPanel() {
   if (loading || catsLoading || settingsLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[oklch(0.78_0.16_75)]" />
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--gold-primary)" }} />
       </div>
     );
   }
@@ -131,32 +131,38 @@ export default function AdminPanel() {
     <OscarLayout title="Pool Master Panel">
       <div className="container py-6 max-w-3xl mx-auto space-y-6">
 
-        {/* ── Ceremony Controls ── */}
+        {/* Ceremony Controls */}
         <section className="oscar-card p-4 sm:p-5">
-          <h2 className="text-sm font-bold text-gold-gradient mb-4 flex items-center gap-2" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-sm font-bold text-gold-gradient mb-4 flex items-center gap-2 font-heading">
             <Settings className="w-4 h-4" />
             Ceremony Controls
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Ceremony toggle */}
-            <div className="p-3 rounded-lg" style={{ background: "oklch(0.10 0.01 60)", border: "1px solid oklch(0.25 0.04 75 / 0.4)" }}>
-              <div className="text-xs text-[oklch(0.60_0.04_75)] mb-2 font-semibold uppercase tracking-wider" style={{ fontFamily: "'Cinzel', serif" }}>
+            <div className="p-3" style={{ background: "var(--bg-deep)", border: "1px solid rgba(212,168,67,0.15)" }}>
+              <div className="text-xs mb-2 font-semibold uppercase tracking-wider font-heading" style={{ color: "var(--text-secondary)" }}>
                 Ceremony Status
               </div>
               <div className="flex items-center justify-between">
-                <span className={`text-sm font-semibold ${settings?.ceremonyStarted ? "text-[oklch(0.78_0.16_75)]" : "text-[oklch(0.55_0.04_75)]"}`}>
-                  {settings?.ceremonyStarted ? "🔴 LIVE — Ballots Locked" : "⏸ Not Started"}
+                <span className="text-sm font-semibold" style={{
+                  color: settings?.ceremonyStarted ? "var(--gold-primary)" : "var(--text-secondary)",
+                }}>
+                  {settings?.ceremonyStarted ? "LIVE — Ballots Locked" : "Not Started"}
                 </span>
                 <button
                   onClick={() => toggleCeremony.mutate({ started: !settings?.ceremonyStarted })}
                   disabled={toggleCeremony.isPending}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-all ${
                     settings?.ceremonyStarted
-                      ? "bg-[oklch(0.55_0.22_25/0.2)] text-[oklch(0.65_0.22_25)] border border-[oklch(0.55_0.22_25/0.4)] hover:bg-[oklch(0.55_0.22_25/0.3)]"
+                      ? ""
                       : "btn-gold"
                   }`}
-                  style={{ fontFamily: "'Cinzel', serif" }}
+                  style={settings?.ceremonyStarted ? {
+                    background: "rgba(185,28,28,0.2)",
+                    color: "var(--destructive)",
+                    border: "1px solid rgba(185,28,28,0.4)",
+                  } : undefined}
                 >
                   {toggleCeremony.isPending ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -170,8 +176,8 @@ export default function AdminPanel() {
             </div>
 
             {/* Cutoff time */}
-            <div className="p-3 rounded-lg" style={{ background: "oklch(0.10 0.01 60)", border: "1px solid oklch(0.25 0.04 75 / 0.4)" }}>
-              <div className="text-xs text-[oklch(0.60_0.04_75)] mb-2 font-semibold uppercase tracking-wider flex items-center gap-1" style={{ fontFamily: "'Cinzel', serif" }}>
+            <div className="p-3" style={{ background: "var(--bg-deep)", border: "1px solid rgba(212,168,67,0.15)" }}>
+              <div className="text-xs mb-2 font-semibold uppercase tracking-wider flex items-center gap-1 font-heading" style={{ color: "var(--text-secondary)" }}>
                 <Clock className="w-3 h-3" /> Ballot Cutoff Time
               </div>
               <div className="flex gap-2">
@@ -179,19 +185,23 @@ export default function AdminPanel() {
                   type="datetime-local"
                   value={cutoffInput}
                   onChange={(e) => setCutoffInput(e.target.value)}
-                  className="flex-1 bg-[oklch(0.13_0.015_62)] border border-[oklch(0.25_0.04_75)] rounded-md px-2 py-1.5 text-xs text-[oklch(0.85_0.05_80)] focus:outline-none focus:border-[oklch(0.78_0.16_75)] transition-colors"
+                  className="flex-1 px-2 py-1.5 text-xs focus:outline-none transition-colors font-body"
+                  style={{
+                    background: "var(--bg-surface)",
+                    border: "1px solid rgba(212,168,67,0.2)",
+                    color: "var(--text-primary)",
+                  }}
                 />
                 <button
                   onClick={handleSetCutoff}
                   disabled={setCutoff.isPending}
-                  className="btn-gold px-3 py-1.5 rounded-md text-xs"
-                  style={{ fontFamily: "'Cinzel', serif" }}
+                  className="btn-gold px-3 py-1.5 text-xs"
                 >
                   {setCutoff.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : "Set"}
                 </button>
               </div>
               {settings?.cutoffTime && (
-                <p className="text-[10px] text-[oklch(0.50_0.03_75)] mt-1">
+                <p className="text-[10px] mt-1" style={{ color: "var(--text-secondary)" }}>
                   Current: {new Date(settings.cutoffTime).toLocaleString()}
                 </p>
               )}
@@ -199,16 +209,16 @@ export default function AdminPanel() {
           </div>
 
           {/* Stats */}
-          <div className="mt-4 flex gap-4 text-xs text-[oklch(0.55_0.04_75)]">
-            <span>🏆 {announcedCount}/24 winners announced</span>
-            <span>👥 {players?.length ?? 0} players</span>
-            <span>💰 {players?.filter((p) => p.hasPaid).length ?? 0} paid</span>
+          <div className="mt-4 flex gap-4 text-xs" style={{ color: "var(--text-secondary)" }}>
+            <span>{announcedCount}/24 winners</span>
+            <span>{players?.length ?? 0} players</span>
+            <span>{players?.filter((p) => p.hasPaid).length ?? 0} paid</span>
           </div>
         </section>
 
-        {/* ── Enter Winners ── */}
+        {/* Enter Winners */}
         <section className="oscar-card p-4 sm:p-5">
-          <h2 className="text-sm font-bold text-gold-gradient mb-4 flex items-center gap-2" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-sm font-bold text-gold-gradient mb-4 flex items-center gap-2 font-heading">
             <Trophy className="w-4 h-4" />
             Enter Winners ({announcedCount}/24)
           </h2>
@@ -220,40 +230,38 @@ export default function AdminPanel() {
               const winnerNom = cat.nominees.find((n) => n.id === currentWinner);
 
               return (
-                <div key={cat.id} className="rounded-lg overflow-hidden" style={{
-                  border: `1px solid ${currentWinner ? "oklch(0.78 0.16 75 / 0.4)" : "oklch(0.25 0.04 75 / 0.4)"}`,
-                  background: currentWinner ? "oklch(0.12 0.02 65)" : "oklch(0.10 0.01 60)",
+                <div key={cat.id} className="overflow-hidden" style={{
+                  border: `1px solid ${currentWinner ? "rgba(212,168,67,0.4)" : "rgba(212,168,67,0.1)"}`,
+                  background: currentWinner ? "var(--bg-surface)" : "var(--bg-deep)",
                 }}>
-                  {/* Category row */}
                   <button
                     className="w-full flex items-center justify-between px-3 py-2.5 text-left"
                     onClick={() => toggleCategory(cat.id)}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       {currentWinner ? (
-                        <CheckCircle className="w-4 h-4 text-[oklch(0.78_0.16_75)] flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 flex-shrink-0" style={{ color: "var(--gold-primary)" }} />
                       ) : (
-                        <Circle className="w-4 h-4 text-[oklch(0.35_0.03_75)] flex-shrink-0" />
+                        <Circle className="w-4 h-4 flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
                       )}
-                      <span className="text-xs font-semibold text-[oklch(0.85_0.05_80)] truncate" style={{ fontFamily: "'Cinzel', serif" }}>
+                      <span className="text-xs font-semibold truncate font-heading" style={{ color: "var(--text-primary)" }}>
                         {cat.name}
                       </span>
                       {winnerNom && (
-                        <span className="text-xs text-[oklch(0.78_0.16_75)] truncate hidden sm:inline">
+                        <span className="text-xs truncate hidden sm:inline" style={{ color: "var(--gold-primary)" }}>
                           → {winnerNom.name}
                         </span>
                       )}
                     </div>
                     {isExpanded ? (
-                      <ChevronUp className="w-3.5 h-3.5 text-[oklch(0.50_0.03_75)] flex-shrink-0" />
+                      <ChevronUp className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
                     ) : (
-                      <ChevronDown className="w-3.5 h-3.5 text-[oklch(0.50_0.03_75)] flex-shrink-0" />
+                      <ChevronDown className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
                     )}
                   </button>
 
-                  {/* Expanded nominees */}
                   {isExpanded && (
-                    <div className="px-3 pb-3 space-y-1.5 border-t border-[oklch(0.25_0.04_75/0.3)]">
+                    <div className="px-3 pb-3 space-y-1.5" style={{ borderTop: "1px solid rgba(212,168,67,0.1)" }}>
                       <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                         {cat.nominees.map((nom) => {
                           const isWinner = currentWinner === nom.id;
@@ -268,21 +276,22 @@ export default function AdminPanel() {
                                 }
                               }}
                               disabled={setWinner.isPending || removeWinner.isPending}
-                              className={`flex items-center gap-2 px-2.5 py-2 rounded-md text-xs text-left transition-all ${
-                                isWinner
-                                  ? "bg-[oklch(0.78_0.16_75/0.2)] border-[oklch(0.78_0.16_75/0.6)] text-[oklch(0.88_0.14_80)]"
-                                  : "bg-[oklch(0.13_0.015_62)] border-[oklch(0.25_0.04_75/0.4)] text-[oklch(0.75_0.04_80)] hover:border-[oklch(0.78_0.16_75/0.4)] hover:bg-[oklch(0.78_0.16_75/0.08)]"
-                              }`}
-                              style={{ border: "1px solid" }}
+                              className="flex items-center gap-2 px-2.5 py-2 text-xs text-left transition-all"
+                              style={{
+                                border: "1px solid",
+                                borderColor: isWinner ? "rgba(212,168,67,0.6)" : "rgba(212,168,67,0.1)",
+                                background: isWinner ? "rgba(212,168,67,0.15)" : "var(--bg-surface)",
+                                color: isWinner ? "var(--gold-light)" : "var(--text-primary)",
+                              }}
                             >
                               {isWinner ? (
-                                <Trophy className="w-3.5 h-3.5 text-[oklch(0.78_0.16_75)] flex-shrink-0" />
+                                <Trophy className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--gold-primary)" }} />
                               ) : (
-                                <div className="w-3.5 h-3.5 rounded-full border border-[oklch(0.35_0.03_75)] flex-shrink-0" />
+                                <div className="w-3.5 h-3.5 rounded-full flex-shrink-0" style={{ border: "1px solid var(--text-secondary)" }} />
                               )}
                               <div className="min-w-0">
                                 <div className="font-medium truncate">{nom.name}</div>
-                                {nom.detail && <div className="text-[oklch(0.45_0.03_75)] truncate">{nom.detail}</div>}
+                                {nom.detail && <div className="truncate" style={{ color: "var(--text-secondary)" }}>{nom.detail}</div>}
                               </div>
                             </button>
                           );
@@ -296,42 +305,42 @@ export default function AdminPanel() {
           </div>
         </section>
 
-        {/* ── Players & Payment ── */}
+        {/* Players & Payment */}
         <section className="oscar-card p-4 sm:p-5">
-          <h2 className="text-sm font-bold text-gold-gradient mb-4 flex items-center gap-2" style={{ fontFamily: "'Cinzel', serif" }}>
+          <h2 className="text-sm font-bold text-gold-gradient mb-4 flex items-center gap-2 font-heading">
             <Users className="w-4 h-4" />
             Players &amp; Payment Status
           </h2>
 
           {playersLoading ? (
             <div className="flex justify-center py-4">
-              <Loader2 className="w-5 h-5 animate-spin text-[oklch(0.78_0.16_75)]" />
+              <Loader2 className="w-5 h-5 animate-spin" style={{ color: "var(--gold-primary)" }} />
             </div>
           ) : players?.length === 0 ? (
-            <p className="text-sm text-[oklch(0.45_0.03_75)] text-center py-4">No players yet.</p>
+            <p className="text-sm text-center py-4" style={{ color: "var(--text-secondary)" }}>No players yet.</p>
           ) : (
             <div className="space-y-2">
               {players?.map((player) => (
                 <div
                   key={player.userId}
-                  className="flex items-center gap-3 p-3 rounded-lg"
+                  className="flex items-center gap-3 p-3"
                   style={{
-                    background: "oklch(0.10 0.01 60)",
-                    border: `1px solid ${player.hasPaid ? "oklch(0.78 0.16 75 / 0.3)" : "oklch(0.25 0.04 75 / 0.3)"}`,
+                    background: "var(--bg-deep)",
+                    border: `1px solid ${player.hasPaid ? "rgba(212,168,67,0.3)" : "rgba(212,168,67,0.1)"}`,
                   }}
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className={`text-sm font-semibold truncate ${player.hasPaid ? "player-paid" : "player-unpaid"}`} style={{ fontFamily: "'Cinzel', serif" }}>
+                      <span className={`text-sm font-semibold truncate font-heading ${player.hasPaid ? "player-paid" : "player-unpaid"}`}>
                         {player.hasPaid && <DollarSign className="w-3 h-3 inline mr-0.5" />}
                         {player.displayName}
                       </span>
                       {!player.isMonetary && (
-                        <span className="text-[10px] text-[oklch(0.45_0.03_75)]">(non-monetary)</span>
+                        <span className="text-[10px]" style={{ color: "var(--text-secondary)" }}>(non-monetary)</span>
                       )}
                     </div>
                     {player.payoutMethod && (
-                      <p className="text-[10px] text-[oklch(0.50_0.03_75)] mt-0.5">{player.payoutMethod}</p>
+                      <p className="text-[10px] mt-0.5" style={{ color: "var(--text-secondary)" }}>{player.payoutMethod}</p>
                     )}
                   </div>
 
@@ -339,12 +348,12 @@ export default function AdminPanel() {
                     <button
                       onClick={() => markPaid.mutate({ userId: player.userId, hasPaid: !player.hasPaid })}
                       disabled={markPaid.isPending}
-                      className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
-                        player.hasPaid
-                          ? "bg-[oklch(0.78_0.16_75/0.15)] text-[oklch(0.78_0.16_75)] border border-[oklch(0.78_0.16_75/0.4)] hover:bg-[oklch(0.55_0.22_25/0.15)] hover:text-[oklch(0.65_0.22_25)] hover:border-[oklch(0.55_0.22_25/0.4)]"
-                          : "bg-[oklch(0.55_0.22_25/0.1)] text-[oklch(0.55_0.22_25)] border border-[oklch(0.55_0.22_25/0.3)] hover:bg-[oklch(0.78_0.16_75/0.15)] hover:text-[oklch(0.78_0.16_75)] hover:border-[oklch(0.78_0.16_75/0.4)]"
-                      }`}
-                      style={{ fontFamily: "'Cinzel', serif" }}
+                      className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold transition-all font-heading"
+                      style={{
+                        background: player.hasPaid ? "rgba(212,168,67,0.15)" : "rgba(185,28,28,0.1)",
+                        color: player.hasPaid ? "var(--gold-primary)" : "var(--destructive)",
+                        border: `1px solid ${player.hasPaid ? "rgba(212,168,67,0.4)" : "rgba(185,28,28,0.3)"}`,
+                      }}
                     >
                       {markPaid.isPending ? (
                         <Loader2 className="w-3 h-3 animate-spin" />
@@ -365,10 +374,9 @@ export default function AdminPanel() {
   );
 }
 
-// Helper component used inside AdminPanel
 function Circle({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} style={arguments[0]?.style}>
       <circle cx="12" cy="12" r="10" />
     </svg>
   );

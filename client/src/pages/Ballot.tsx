@@ -26,7 +26,6 @@ export default function Ballot() {
 
   const utils = trpc.useUtils();
 
-  // picks: categoryId -> nomineeId
   const [picks, setPicks] = useState<Record<number, number>>({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -43,7 +42,6 @@ export default function Ballot() {
     }
   }, [profile, profileLoading, isAuthenticated, navigate]);
 
-  // Load existing picks
   useEffect(() => {
     if (ballotData?.picks) {
       const map: Record<number, number> = {};
@@ -69,7 +67,7 @@ export default function Ballot() {
   const submitBallot = trpc.ballot.submit.useMutation({
     onSuccess: () => {
       utils.ballot.get.invalidate();
-      toast.success("Ballot saved! 🏆");
+      toast.success("Ballot saved!");
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     },
@@ -100,7 +98,7 @@ export default function Ballot() {
   if (loading || profileLoading || catsLoading || ballotLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[oklch(0.78_0.16_75)]" />
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--gold-primary)" }} />
       </div>
     );
   }
@@ -112,20 +110,20 @@ export default function Ballot() {
         <div className="oscar-card p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {isClosed ? (
-              <div className="flex items-center gap-2 text-sm text-[oklch(0.65_0.22_25)]">
+              <div className="flex items-center gap-2 text-sm" style={{ color: "var(--destructive)" }}>
                 <Lock className="w-4 h-4" />
-                <span className="font-semibold" style={{ fontFamily: "'Cinzel', serif" }}>
+                <span className="font-semibold font-heading">
                   {settings?.ceremonyStarted ? "Ceremony in Progress — Ballots Locked" : "Submission Deadline Passed"}
                 </span>
               </div>
             ) : (
-              <div className="flex items-center gap-2 text-sm text-[oklch(0.78_0.16_75)]">
+              <div className="flex items-center gap-2 text-sm" style={{ color: "var(--gold-primary)" }}>
                 <CheckCircle className="w-4 h-4" />
-                <span className="font-semibold" style={{ fontFamily: "'Cinzel', serif" }}>
+                <span className="font-semibold font-heading">
                   Ballot Open
                 </span>
                 {settings?.cutoffTime && (
-                  <span className="text-[oklch(0.55_0.04_75)] text-xs">
+                  <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
                     · Closes {new Date(settings.cutoffTime).toLocaleString()}
                   </span>
                 )}
@@ -135,16 +133,16 @@ export default function Ballot() {
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <div className="flex-1 sm:w-36">
-              <div className="flex justify-between text-xs text-[oklch(0.60_0.04_75)] mb-1">
+              <div className="flex justify-between text-xs mb-1" style={{ color: "var(--text-secondary)" }}>
                 <span>{pickedCount} / {totalCategories} picked</span>
                 <span>{progress}%</span>
               </div>
-              <div className="h-1.5 rounded-full bg-[oklch(0.18_0.02_62)] overflow-hidden">
+              <div className="h-1.5 overflow-hidden" style={{ background: "var(--bg-elevated)" }}>
                 <div
-                  className="h-full rounded-full transition-all duration-500"
+                  className="h-full transition-all duration-500"
                   style={{
                     width: `${progress}%`,
-                    background: "linear-gradient(90deg, oklch(0.62 0.14 70), oklch(0.82 0.16 78))",
+                    background: "linear-gradient(90deg, var(--gold-muted), var(--gold-primary))",
                   }}
                 />
               </div>
@@ -154,8 +152,7 @@ export default function Ballot() {
               <button
                 onClick={handleSave}
                 disabled={saving || pickedCount === 0}
-                className={`btn-gold px-4 py-2 rounded-md text-xs flex items-center gap-1.5 ${saved ? "opacity-80" : ""}`}
-                style={{ fontFamily: "'Cinzel', serif" }}
+                className={`btn-gold px-4 py-2 text-xs flex items-center gap-1.5 ${saved ? "opacity-80" : ""}`}
               >
                 {saving ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -168,6 +165,13 @@ export default function Ballot() {
               </button>
             )}
           </div>
+        </div>
+
+        {/* Film strip divider */}
+        <div className="film-strip mb-6">
+          {[...Array(12)].map((_, i) => (
+            <div key={i} className="film-strip-frame" />
+          ))}
         </div>
 
         {/* Categories */}
@@ -185,35 +189,37 @@ export default function Ballot() {
                 style={{
                   borderColor: winner
                     ? isCorrect
-                      ? "oklch(0.78 0.16 75 / 0.6)"
-                      : "oklch(0.25 0.04 75)"
-                    : "oklch(0.25 0.04 75 / 0.5)",
+                      ? "rgba(212,168,67,0.6)"
+                      : "rgba(212,168,67,0.15)"
+                    : undefined,
                 }}
               >
                 {/* Category header */}
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-bold text-gold-gradient" style={{ fontFamily: "'Cinzel', serif" }}>
+                  <h3 className="text-sm font-bold text-gold-gradient font-heading">
                     {cat.name}
                   </h3>
                   <div className="flex items-center gap-2">
                     {winner && (
-                      <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{
-                        background: "oklch(0.78 0.16 75 / 0.15)",
-                        color: "oklch(0.78 0.16 75)",
-                        border: "1px solid oklch(0.78 0.16 75 / 0.3)",
-                        fontFamily: "'Cinzel', serif",
+                      <span className="text-xs px-2 py-0.5 font-semibold font-heading" style={{
+                        background: "rgba(212,168,67,0.15)",
+                        color: "var(--gold-primary)",
+                        border: "1px solid rgba(212,168,67,0.3)",
                       }}>
-                        🏆 Winner Announced
+                        Winner Announced
                       </span>
                     )}
                     {isCorrect && (
-                      <span className="text-xs text-[oklch(0.78_0.16_75)] font-bold">✓ Correct!</span>
+                      <span className="text-xs font-bold" style={{ color: "var(--gold-primary)" }}>Correct!</span>
                     )}
                     {isWrong && (
-                      <span className="text-xs text-[oklch(0.55_0.22_25)]">✗ Missed</span>
+                      <span className="text-xs" style={{ color: "var(--destructive)" }}>Missed</span>
                     )}
                   </div>
                 </div>
+
+                {/* Gold underline under category name */}
+                <div className="gold-divider mb-3" style={{ margin: "0 0 0.75rem 0" }} />
 
                 {/* Nominees */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -226,34 +232,41 @@ export default function Ballot() {
                         key={nom.id}
                         onClick={() => handlePick(cat.id, nom.id)}
                         disabled={isClosed}
-                        className={`flex items-start gap-2.5 p-2.5 rounded-md text-left transition-all text-sm ${
+                        className={`flex items-start gap-2.5 p-2.5 text-left transition-all text-sm ${
                           isClosed ? "cursor-default" : "cursor-pointer"
-                        } ${
-                          isWinner
-                            ? "border-[oklch(0.78_0.16_75/0.8)] bg-[oklch(0.78_0.16_75/0.12)]"
-                            : isPicked
-                            ? "border-[oklch(0.78_0.16_75/0.5)] bg-[oklch(0.78_0.16_75/0.08)]"
-                            : "border-[oklch(0.25_0.04_75/0.4)] bg-[oklch(0.10_0.01_60)] hover:border-[oklch(0.78_0.16_75/0.3)] hover:bg-[oklch(0.78_0.16_75/0.05)]"
                         }`}
-                        style={{ border: "1px solid" }}
+                        style={{
+                          border: "1px solid",
+                          borderColor: isWinner
+                            ? "rgba(212,168,67,0.8)"
+                            : isPicked
+                            ? "rgba(212,168,67,0.5)"
+                            : "rgba(212,168,67,0.1)",
+                          background: isWinner
+                            ? "rgba(212,168,67,0.12)"
+                            : isPicked
+                            ? "rgba(212,168,67,0.08)"
+                            : "var(--bg-deep)",
+                          boxShadow: isPicked && !isWinner ? "0 0 12px rgba(212,168,67,0.1)" : undefined,
+                        }}
                       >
                         <div className="mt-0.5 flex-shrink-0">
                           {isWinner ? (
-                            <span className="text-[oklch(0.78_0.16_75)] text-base">🏆</span>
+                            <Trophy className="w-4 h-4" style={{ color: "var(--gold-primary)" }} />
                           ) : isPicked ? (
-                            <CheckCircle className="w-4 h-4 text-[oklch(0.78_0.16_75)]" />
+                            <CheckCircle className="w-4 h-4" style={{ color: "var(--gold-primary)" }} />
                           ) : (
-                            <Circle className="w-4 h-4 text-[oklch(0.35_0.03_75)]" />
+                            <Circle className="w-4 h-4" style={{ color: "var(--text-secondary)" }} />
                           )}
                         </div>
                         <div className="min-w-0">
-                          <div className={`font-medium leading-tight ${
-                            isWinner ? "text-[oklch(0.88_0.14_80)]" : isPicked ? "text-[oklch(0.82_0.16_78)]" : "text-[oklch(0.85_0.05_80)]"
-                          }`}>
+                          <div className="font-medium leading-tight font-body" style={{
+                            color: isWinner ? "var(--gold-light)" : isPicked ? "var(--gold-primary)" : "var(--text-primary)",
+                          }}>
                             {nom.name}
                           </div>
                           {nom.detail && (
-                            <div className="text-xs text-[oklch(0.50_0.03_75)] mt-0.5 truncate">
+                            <div className="text-xs mt-0.5 truncate" style={{ color: "var(--text-secondary)" }}>
                               {nom.detail}
                             </div>
                           )}
@@ -273,8 +286,7 @@ export default function Ballot() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="btn-gold w-full py-3 rounded-lg text-sm flex items-center justify-center gap-2 shadow-lg"
-              style={{ fontFamily: "'Cinzel', serif" }}
+              className="btn-gold w-full py-3 text-sm flex items-center justify-center gap-2 shadow-lg"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trophy className="w-4 h-4" />}
               {saving ? "Saving..." : `Save Ballot (${pickedCount}/${totalCategories} categories)`}

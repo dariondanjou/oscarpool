@@ -43,69 +43,108 @@
 }
 
 :root {
-  /* Oscar Gold & Black Theme */
-  --primary: oklch(0.78 0.16 75);
-  --primary-foreground: oklch(0.09 0.01 60);
-  --sidebar-primary: oklch(0.78 0.16 75);
-  --sidebar-primary-foreground: oklch(0.09 0.01 60);
-  --chart-1: oklch(0.78 0.16 75);
-  --chart-2: oklch(0.65 0.14 70);
-  --chart-3: oklch(0.55 0.12 68);
-  --chart-4: oklch(0.45 0.10 65);
-  --chart-5: oklch(0.35 0.08 62);
+  /* Oscar Gold & Black Design System */
+  --bg-deep: #0A0A0A;
+  --bg-surface: #141414;
+  --bg-elevated: #1A1A1A;
+  --gold-primary: #D4A843;
+  --gold-light: #E8D5A3;
+  --gold-muted: #8B7535;
+  --gold-sparkle: #FFF5D4;
+  --silver-primary: #C0C0C0;
+  --silver-light: #E0E0E0;
+  --text-primary: #E0E0E0;
+  --text-secondary: #A0A0A0;
+
+  /* shadcn tokens */
+  --background: #0A0A0A;
+  --foreground: #E0E0E0;
+  --card: #141414;
+  --card-foreground: #E0E0E0;
+  --popover: #1A1A1A;
+  --popover-foreground: #E0E0E0;
+  --primary: #D4A843;
+  --primary-foreground: #0A0A0A;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #C0C0C0;
+  --muted: #1A1A1A;
+  --muted-foreground: #A0A0A0;
+  --accent: #D4A843;
+  --accent-foreground: #0A0A0A;
+  --destructive: #B91C1C;
+  --destructive-foreground: #FECACA;
+  --border: rgba(212,168,67,0.2);
+  --input: #1A1A1A;
+  --ring: #D4A843;
   --radius: 0rem;
-  --background: oklch(0.09 0.01 60);
-  --foreground: oklch(0.93 0.03 80);
-  --card: oklch(0.12 0.015 62);
-  --card-foreground: oklch(0.93 0.03 80);
-  --popover: oklch(0.13 0.015 62);
-  --popover-foreground: oklch(0.93 0.03 80);
-  --secondary: oklch(0.18 0.02 62);
-  --secondary-foreground: oklch(0.85 0.05 80);
-  --muted: oklch(0.16 0.015 62);
-  --muted-foreground: oklch(0.60 0.04 75);
-  --accent: oklch(0.72 0.14 75);
-  --accent-foreground: oklch(0.09 0.01 60);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0.01 80);
-  --border: oklch(0.25 0.04 75);
-  --input: oklch(0.18 0.02 62);
-  --ring: oklch(0.78 0.16 75);
-  --sidebar: oklch(0.11 0.012 62);
-  --sidebar-foreground: oklch(0.93 0.03 80);
-  --sidebar-accent: oklch(0.18 0.02 62);
-  --sidebar-accent-foreground: oklch(0.93 0.03 80);
-  --sidebar-border: oklch(0.25 0.04 75);
-  --sidebar-ring: oklch(0.78 0.16 75);
+
+  /* Chart tokens */
+  --chart-1: #D4A843;
+  --chart-2: #B8922E;
+  --chart-3: #8B7535;
+  --chart-4: #6B5A28;
+  --chart-5: #4A3E1C;
+
+  /* Sidebar tokens */
+  --sidebar: #111111;
+  --sidebar-foreground: #E0E0E0;
+  --sidebar-primary: #D4A843;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #1A1A1A;
+  --sidebar-accent-foreground: #E0E0E0;
+  --sidebar-border: rgba(212,168,67,0.2);
+  --sidebar-ring: #D4A843;
 }
 
 .dark {
   /* Same as root — always dark for Oscar theme */
-  --primary: oklch(0.78 0.16 75);
-  --primary-foreground: oklch(0.09 0.01 60);
-  --background: oklch(0.09 0.01 60);
-  --foreground: oklch(0.93 0.03 80);
-  --card: oklch(0.12 0.015 62);
-  --card-foreground: oklch(0.93 0.03 80);
-  --popover: oklch(0.13 0.015 62);
-  --popover-foreground: oklch(0.93 0.03 80);
-  --secondary: oklch(0.18 0.02 62);
-  --secondary-foreground: oklch(0.85 0.05 80);
-  --muted: oklch(0.16 0.015 62);
-  --muted-foreground: oklch(0.60 0.04 75);
-  --accent: oklch(0.72 0.14 75);
-  --accent-foreground: oklch(0.09 0.01 60);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0.01 80);
-  --border: oklch(0.25 0.04 75);
-  --input: oklch(0.18 0.02 62);
-  --ring: oklch(0.78 0.16 75);
-  --sidebar: oklch(0.11 0.012 62);
-  --sidebar-foreground: oklch(0.93 0.03 80);
-  --sidebar-accent: oklch(0.18 0.02 62);
-  --sidebar-accent-foreground: oklch(0.93 0.03 80);
-  --sidebar-border: oklch(0.25 0.04 75);
-  --sidebar-ring: oklch(0.78 0.16 75);
+  --bg-deep: #0A0A0A;
+  --bg-surface: #141414;
+  --bg-elevated: #1A1A1A;
+  --gold-primary: #D4A843;
+  --gold-light: #E8D5A3;
+  --gold-muted: #8B7535;
+  --gold-sparkle: #FFF5D4;
+  --silver-primary: #C0C0C0;
+  --silver-light: #E0E0E0;
+  --text-primary: #E0E0E0;
+  --text-secondary: #A0A0A0;
+
+  --background: #0A0A0A;
+  --foreground: #E0E0E0;
+  --card: #141414;
+  --card-foreground: #E0E0E0;
+  --popover: #1A1A1A;
+  --popover-foreground: #E0E0E0;
+  --primary: #D4A843;
+  --primary-foreground: #0A0A0A;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #C0C0C0;
+  --muted: #1A1A1A;
+  --muted-foreground: #A0A0A0;
+  --accent: #D4A843;
+  --accent-foreground: #0A0A0A;
+  --destructive: #B91C1C;
+  --destructive-foreground: #FECACA;
+  --border: rgba(212,168,67,0.2);
+  --input: #1A1A1A;
+  --ring: #D4A843;
+  --radius: 0rem;
+
+  --chart-1: #D4A843;
+  --chart-2: #B8922E;
+  --chart-3: #8B7535;
+  --chart-4: #6B5A28;
+  --chart-5: #4A3E1C;
+
+  --sidebar: #111111;
+  --sidebar-foreground: #E0E0E0;
+  --sidebar-primary: #D4A843;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #1A1A1A;
+  --sidebar-accent-foreground: #E0E0E0;
+  --sidebar-border: rgba(212,168,67,0.2);
+  --sidebar-ring: #D4A843;
 }
 
 @layer base {
@@ -115,12 +154,23 @@
   body {
     @apply bg-background text-foreground;
     background-image:
-      radial-gradient(ellipse at 20% 10%, oklch(0.15 0.04 75 / 0.35) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 90%, oklch(0.13 0.03 70 / 0.25) 0%, transparent 50%);
+      radial-gradient(ellipse at center, rgba(212,168,67,0.03), transparent 70%);
     min-height: 100vh;
   }
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel', 'Playfair Display', serif;
+    font-family: 'Cinzel', serif;
     letter-spacing: 0.04em;
   }
   button:not(:disabled),
@@ -136,79 +186,139 @@
   }
 }
 
-/* ── Gold gradient text ───────────────────────────────────────────────────── */
+/* ── Typography utilities ────────────────────────────────────────────────── */
+.font-display { font-family: 'Cinzel Decorative', 'Cinzel', serif; }
+.font-heading { font-family: 'Cinzel', serif; }
+.font-script { font-family: 'Pinyon Script', 'Georgia', cursive; }
+.font-body { font-family: 'Lato', sans-serif; }
+
+/* ── Gold gradient text ──────────────────────────────────────────────────── */
 .text-gold-gradient {
-  background: linear-gradient(
-    135deg,
-    oklch(0.60 0.14 70) 0%,
-    oklch(0.88 0.14 80) 40%,
-    oklch(0.78 0.16 75) 60%,
-    oklch(0.55 0.12 68) 100%
-  );
+  background: linear-gradient(135deg, #D4A843, #F5E6B8, #D4A843);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* ── Gold border ─────────────────────────────────────────────────────────── */
 .gold-border {
-  border: 1px solid oklch(0.78 0.16 75 / 0.45);
-  box-shadow: 0 0 12px oklch(0.78 0.16 75 / 0.12), inset 0 0 12px oklch(0.78 0.16 75 / 0.04);
+  border: 1px solid rgba(212,168,67,0.45);
+  box-shadow: 0 0 12px rgba(212,168,67,0.12), inset 0 0 12px rgba(212,168,67,0.04);
 }
 
+/* ── Oscar card ──────────────────────────────────────────────────────────── */
 .oscar-card {
-  background: linear-gradient(145deg, oklch(0.13 0.02 65), oklch(0.10 0.01 60));
-  border: 1px solid oklch(0.78 0.16 75 / 0.22);
+  background: var(--bg-surface);
+  border: 1px solid rgba(212,168,67,0.2);
   border-radius: 0;
-  box-shadow: 0 4px 24px oklch(0 0 0 / 0.4), 0 0 0 1px oklch(0.78 0.16 75 / 0.06);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,168,67,0.06);
 }
 
+/* ── Gold button ─────────────────────────────────────────────────────────── */
 .btn-gold {
-  background: linear-gradient(135deg, oklch(0.62 0.14 70), oklch(0.82 0.16 78), oklch(0.62 0.14 70));
-  color: oklch(0.09 0.01 60);
+  background: linear-gradient(135deg, #8B7535, #D4A843, #E8D5A3, #D4A843, #8B7535);
+  color: #0A0A0A;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 12px oklch(0.78 0.16 75 / 0.35);
+  box-shadow: 0 2px 12px rgba(212,168,67,0.35);
+  font-family: 'Cinzel', serif;
 }
 
 .btn-gold:hover {
-  background: linear-gradient(135deg, oklch(0.68 0.16 72), oklch(0.88 0.16 80), oklch(0.68 0.16 72));
-  box-shadow: 0 4px 20px oklch(0.78 0.16 75 / 0.55);
+  box-shadow: 0 4px 20px rgba(212,168,67,0.55);
   transform: translateY(-1px);
 }
 
+/* ── Gold divider ────────────────────────────────────────────────────────── */
 .gold-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, oklch(0.78 0.16 75 / 0.55), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.55), transparent);
   margin: 1rem 0;
 }
 
-.player-paid { color: oklch(0.82 0.16 78); font-weight: 600; }
-.player-unpaid { color: oklch(0.62 0.01 240); }
+/* ── Gold rule ───────────────────────────────────────────────────────────── */
+.gold-rule {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.6) 30%, #E8D5A3 50%, rgba(212,168,67,0.6) 70%, transparent);
+}
 
-.rank-1 { background: linear-gradient(135deg, oklch(0.62 0.14 70), oklch(0.82 0.16 78)); color: oklch(0.09 0.01 60); }
-.rank-2 { background: linear-gradient(135deg, oklch(0.52 0.01 240), oklch(0.70 0.01 240)); color: oklch(0.09 0.01 60); }
-.rank-3 { background: linear-gradient(135deg, oklch(0.42 0.08 50), oklch(0.58 0.10 55)); color: oklch(0.95 0.03 80); }
+/* ── Player status ───────────────────────────────────────────────────────── */
+.player-paid { color: #D4A843; font-weight: 600; }
+.player-unpaid { color: #6B7280; }
 
+/* ── Rank badges ─────────────────────────────────────────────────────────── */
+.rank-1 { background: linear-gradient(135deg, #8B7535, #D4A843, #E8D5A3); color: #0A0A0A; }
+.rank-2 { background: linear-gradient(135deg, #808080, #C0C0C0, #E0E0E0); color: #0A0A0A; }
+.rank-3 { background: linear-gradient(135deg, #8B5E3C, #CD7F32, #D4A76A); color: #0A0A0A; }
+
+/* ── Payment banner ──────────────────────────────────────────────────────── */
 .payment-banner {
-  background: linear-gradient(135deg, oklch(0.12 0.02 65 / 0.97), oklch(0.10 0.01 60 / 0.97));
-  border-top: 1px solid oklch(0.78 0.16 75 / 0.28);
+  background: linear-gradient(135deg, rgba(20,20,20,0.97), rgba(10,10,10,0.97));
+  border-top: 1px solid rgba(212,168,67,0.28);
   backdrop-filter: blur(8px);
 }
 
+/* ── Trophy glow animation ───────────────────────────────────────────────── */
 @keyframes trophy-glow {
-  0%, 100% { filter: drop-shadow(0 0 4px oklch(0.78 0.16 75 / 0.35)); }
-  50% { filter: drop-shadow(0 0 14px oklch(0.78 0.16 75 / 0.75)); }
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(212,168,67,0.35)); }
+  50% { filter: drop-shadow(0 0 14px rgba(212,168,67,0.75)); }
 }
 .trophy-glow { animation: trophy-glow 3s ease-in-out infinite; }
 
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: oklch(0.12 0.01 60); }
-::-webkit-scrollbar-thumb { background: oklch(0.78 0.16 75 / 0.35); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: oklch(0.78 0.16 75 / 0.65); }
+::-webkit-scrollbar-track { background: #141414; }
+::-webkit-scrollbar-thumb { background: rgba(212,168,67,0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212,168,67,0.65); }
+
+/* ── Ornate frame ────────────────────────────────────────────────────────── */
+.ornate-frame {
+  padding: 3px;
+  background: linear-gradient(135deg, #8B7535, #E8D5A3, #8B7535, #E8D5A3, #8B7535);
+}
+.ornate-frame-inner {
+  background: var(--bg-surface);
+  padding: 2px;
+  position: relative;
+}
+.ornate-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 1;
+}
+.ornate-corner::before {
+  content: '\2726';
+  position: absolute;
+  color: #D4A843;
+  font-size: 14px;
+  opacity: 0.6;
+}
+.ornate-corner-tl { top: 6px; left: 6px; }
+.ornate-corner-tr { top: 6px; right: 6px; }
+.ornate-corner-bl { bottom: 6px; left: 6px; }
+.ornate-corner-br { bottom: 6px; right: 6px; }
+.ornate-corner-tr::before, .ornate-corner-br::before { right: 0; }
+.ornate-corner-bl::before, .ornate-corner-br::before { bottom: 0; }
+
+/* ── Film strip ──────────────────────────────────────────────────────────── */
+.film-strip {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0.2;
+}
+.film-strip-frame {
+  width: 14px;
+  height: 20px;
+  background: rgba(212,168,67,0.25);
+  border: 1px solid rgba(212,168,67,0.35);
+}
 
 @layer components {
   /**
